@@ -5,9 +5,9 @@ def primes(kmax):
     while k < kmax:
         i = 0
         while i < k and n % p[i] != 0:
-            i += 1
+            i = i + 1
         if i == k:
             p.append(n)
-            k += 1
-        n += 1
+            k = k + 1
+        n = n + 1
     return p
