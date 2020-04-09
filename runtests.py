@@ -1766,8 +1766,6 @@ class EndToEndTest(unittest.TestCase):
         if old_path:
             new_path = new_path + os.pathsep + old_path
         env['PYTHONPATH'] = new_path
-        if not env.get("PYTHONIOENCODING"):
-            env["PYTHONIOENCODING"] = sys.stdout.encoding or sys.getdefaultencoding()
         cmd = []
         out = []
         err = []
