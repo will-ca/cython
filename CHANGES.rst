@@ -217,12 +217,6 @@ Other changes
 0.29.17 (2020-0?-??)
 ====================
 
-Features added
---------------
-
-* ``std::move()`` is now available from ``libcpp.utility``.
-  Patch by Omer Ozarslan.  (Github issue #2169)
-
 Bugs fixed
 ----------
 
