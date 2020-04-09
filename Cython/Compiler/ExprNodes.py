@@ -9279,8 +9279,7 @@ class PyCFunctionNode(ExprNode, ModuleNameMixin):
                             value=arg.default)
                         for arg in default_kwargs])
                     self.defaults_kwdict = defaults_kwdict.analyse_types(env)
-            elif not self.specialized_cpdefs:
-                # Fused dispatch functions do not support (dynamic) default arguments, only the specialisations do.
+            else:
                 if default_args:
                     defaults_tuple = DefaultsTupleNode(
                         self.pos, default_args, self.defaults_struct)
@@ -9441,7 +9440,8 @@ class PyCFunctionNode(ExprNode, ModuleNameMixin):
         if self.defaults_kwdict:
             code.putln('__Pyx_CyFunction_SetDefaultsKwDict(%s, %s);' % (
                 self.result(), self.defaults_kwdict.py_result()))
-        if def_node.defaults_getter:
+        if def_node.defaults_getter and not self.specialized_cpdefs:
+            # Fused functions do not support dynamic defaults, only their specialisations can have them for now.
             code.putln('__Pyx_CyFunction_SetDefaultsGetter(%s, %s);' % (
                 self.result(), def_node.defaults_getter.entry.pyfunc_cname))
         if self.annotations_dict:
