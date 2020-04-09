@@ -1826,20 +1826,12 @@ class EmbedTest(unittest.TestCase):
         if sys.version_info[0] >=3 and CY3_DIR:
             cython = os.path.join(CY3_DIR, cython)
         cython = os.path.abspath(os.path.join('..', '..', cython))
-
+        self.assertEqual(0, os.system(
+            "make PYTHON='%s' CYTHON='%s' LIBDIR1='%s' test > make.output" % (sys.executable, cython, libdir)))
         try:
-            subprocess.check_output([
-                "make",
-                "PYTHON='%s'" % sys.executable,
-                "CYTHON='%s'" % cython,
-                "LIBDIR1='%s'" % libdir,
-                "paths", "test",
-            ])
-        except subprocess.CalledProcessError as err:
-            print(err.output.decode())
-            raise
-        self.assertTrue(True)  # :)
-
+            os.remove('make.output')
+        except OSError:
+            pass
 
 def load_listfile(filename):
     # just re-use the FileListExclude implementation
